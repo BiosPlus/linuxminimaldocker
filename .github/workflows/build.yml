@@ -1,1 +1,20 @@
-name: Docker
+name: Docker Minimal
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  push:
+
+jobs:
+  grab-resources:
+    name: Grab ubuntu minimal image tar
+    runs on: ubuntu-latest
+    strategy:
+      matrix:
+        BASE_OS: [16.04, 18.04, 20.04]
+        OS_URL: http://cloud-images.ubuntu.com/minimal/releases/xenial/release/ubuntu-16.04-minimal-cloudimg-amd64-root.tar.xz
+        PLATFORMS: [linux/amd64, linux/arm64, linux/386]
+        include:
+          - {BASE_OS: 16.04, BASE_NAME: xenial}
+          - {BASE_OS: 18.04, BASE_NAME: bionic}
+          - {BASE_OS: 20.04, BASE_NAME: focal}
